@@ -1,0 +1,50 @@
+[
+  {
+    "query": "Checkout returns 503 after deployment. The readiness probe gets 404.",
+    "expected_source": "checkout-readiness.md"
+  },
+  {
+    "query": "The new checkout processes are running but none can receive traffic.",
+    "expected_source": "checkout-readiness.md"
+  },
+  {
+    "query": "POOL_ACQUIRE_TIMEOUT with active=20 idle=0 waiting=38",
+    "expected_source": "database-pool-exhaustion.md"
+  },
+  {
+    "query": "Orders are slow because requests cannot obtain a database connection.",
+    "expected_source": "database-pool-exhaustion.md"
+  },
+  {
+    "query": "The mail provider returns 429 with Retry-After and immediate retries.",
+    "expected_source": "dependency-rate-limit.md"
+  },
+  {
+    "query": "Our notification supplier is throttling us and delivery jobs are piling up.",
+    "expected_source": "dependency-rate-limit.md"
+  },
+  {
+    "query": "Report worker termination reason OOMKilled and restart count increasing",
+    "expected_source": "container-memory-limit.md"
+  },
+  {
+    "query": "The reporting process dies while holding a huge batch in memory.",
+    "expected_source": "container-memory-limit.md"
+  },
+  {
+    "query": "NAME_NOT_RESOLVED and NXDOMAIN for stock-store.internal",
+    "expected_source": "dns-resolution-failure.md"
+  },
+  {
+    "query": "Inventory cannot look up the address of its dependency by hostname.",
+    "expected_source": "dns-resolution-failure.md"
+  },
+  {
+    "query": "Queue arrivals 120 per second, processing 40, downstream status 200",
+    "expected_source": "queue-consumer-backlog.md"
+  },
+  {
+    "query": "Events arrive faster than workers can finish them, although the downstream service responds successfully.",
+    "expected_source": "queue-consumer-backlog.md"
+  }
+]

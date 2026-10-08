@@ -1,0 +1,506 @@
+{
+  "scope": "Development evaluation: 12 authored questions over six fictional runbooks. Checks source-document relevance, not passage sufficiency or generated-answer correctness.",
+  "cases": 12,
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "candidate_count_per_method": 10,
+  "rrf_constant": 60,
+  "cases_sha256": "39552152edc335be738435b06f84665550fa310147186cd4f8e97cb427c8498f",
+  "document_sha256": {
+    "checkout-readiness.md": "1b0a45987eaca876b804642bed0878c9b4d40598e78893144fbbb63b4561a945",
+    "container-memory-limit.md": "33afab14e6948141817e17601bc6f771a7d5c814436631a7c89868d7fe040c07",
+    "database-pool-exhaustion.md": "f774582f843bdd49325b27c94b49cb3a91db26333ae35cf61ac914c290ca037f",
+    "dependency-rate-limit.md": "8644e7832d8442c395be18e36120a6461b418694a80830a1634604b4b94e82cc",
+    "dns-resolution-failure.md": "0211cde200063ba7f61d05f45c0c4a54202f9e3c982b2a07dd8339522044d702",
+    "queue-consumer-backlog.md": "76b277745feefcf186634ab6e9a007ea0896caeabb54cf5a46557aaee67fe60e"
+  },
+  "latency_note": "Single local measurements after warmup; excludes model loading and indexing. Hybrid time sums both retrieval times and fusion. Not a production latency benchmark.",
+  "summary": {
+    "keyword": {
+      "hit_at_1": 1.0,
+      "hit_at_3": 1.0,
+      "reciprocal_rank_at_3": 1.0,
+      "latency_ms": 0.0819
+    },
+    "semantic": {
+      "hit_at_1": 0.9167,
+      "hit_at_3": 1.0,
+      "reciprocal_rank_at_3": 0.9583,
+      "latency_ms": 3.1955
+    },
+    "hybrid": {
+      "hit_at_1": 0.9167,
+      "hit_at_3": 1.0,
+      "reciprocal_rank_at_3": 0.9583,
+      "latency_ms": 3.2952
+    }
+  },
+  "details": [
+    {
+      "query": "Checkout returns 503 after deployment. The readiness probe gets 404.",
+      "expected_source": "checkout-readiness.md",
+      "methods": {
+        "keyword": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "checkout-readiness.md",
+            "checkout-readiness.md",
+            "checkout-readiness.md"
+          ],
+          "latency_ms": 0.191
+        },
+        "semantic": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "checkout-readiness.md",
+            "checkout-readiness.md",
+            "checkout-readiness.md"
+          ],
+          "latency_ms": 3.233
+        },
+        "hybrid": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "checkout-readiness.md",
+            "checkout-readiness.md",
+            "checkout-readiness.md"
+          ],
+          "latency_ms": 3.46
+        }
+      }
+    },
+    {
+      "query": "The new checkout processes are running but none can receive traffic.",
+      "expected_source": "checkout-readiness.md",
+      "methods": {
+        "keyword": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "checkout-readiness.md",
+            "checkout-readiness.md",
+            "checkout-readiness.md"
+          ],
+          "latency_ms": 0.084
+        },
+        "semantic": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "checkout-readiness.md",
+            "checkout-readiness.md",
+            "checkout-readiness.md"
+          ],
+          "latency_ms": 3.303
+        },
+        "hybrid": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "checkout-readiness.md",
+            "checkout-readiness.md",
+            "checkout-readiness.md"
+          ],
+          "latency_ms": 3.404
+        }
+      }
+    },
+    {
+      "query": "POOL_ACQUIRE_TIMEOUT with active=20 idle=0 waiting=38",
+      "expected_source": "database-pool-exhaustion.md",
+      "methods": {
+        "keyword": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "database-pool-exhaustion.md",
+            "database-pool-exhaustion.md",
+            "queue-consumer-backlog.md"
+          ],
+          "latency_ms": 0.073
+        },
+        "semantic": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "database-pool-exhaustion.md",
+            "database-pool-exhaustion.md",
+            "database-pool-exhaustion.md"
+          ],
+          "latency_ms": 3.139
+        },
+        "hybrid": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "database-pool-exhaustion.md",
+            "database-pool-exhaustion.md",
+            "database-pool-exhaustion.md"
+          ],
+          "latency_ms": 3.233
+        }
+      }
+    },
+    {
+      "query": "Orders are slow because requests cannot obtain a database connection.",
+      "expected_source": "database-pool-exhaustion.md",
+      "methods": {
+        "keyword": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "database-pool-exhaustion.md",
+            "database-pool-exhaustion.md",
+            "database-pool-exhaustion.md"
+          ],
+          "latency_ms": 0.074
+        },
+        "semantic": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "database-pool-exhaustion.md",
+            "database-pool-exhaustion.md",
+            "database-pool-exhaustion.md"
+          ],
+          "latency_ms": 3.096
+        },
+        "hybrid": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "database-pool-exhaustion.md",
+            "database-pool-exhaustion.md",
+            "database-pool-exhaustion.md"
+          ],
+          "latency_ms": 3.189
+        }
+      }
+    },
+    {
+      "query": "The mail provider returns 429 with Retry-After and immediate retries.",
+      "expected_source": "dependency-rate-limit.md",
+      "methods": {
+        "keyword": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "dependency-rate-limit.md",
+            "dependency-rate-limit.md",
+            "dependency-rate-limit.md"
+          ],
+          "latency_ms": 0.074
+        },
+        "semantic": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "dependency-rate-limit.md",
+            "dependency-rate-limit.md",
+            "dependency-rate-limit.md"
+          ],
+          "latency_ms": 2.869
+        },
+        "hybrid": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "dependency-rate-limit.md",
+            "dependency-rate-limit.md",
+            "dependency-rate-limit.md"
+          ],
+          "latency_ms": 2.959
+        }
+      }
+    },
+    {
+      "query": "Our notification supplier is throttling us and delivery jobs are piling up.",
+      "expected_source": "dependency-rate-limit.md",
+      "methods": {
+        "keyword": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "dependency-rate-limit.md",
+            "dependency-rate-limit.md",
+            "dependency-rate-limit.md"
+          ],
+          "latency_ms": 0.068
+        },
+        "semantic": {
+          "hit_at_1": 0,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 0.5,
+          "sources": [
+            "queue-consumer-backlog.md",
+            "dependency-rate-limit.md",
+            "queue-consumer-backlog.md"
+          ],
+          "latency_ms": 3.178
+        },
+        "hybrid": {
+          "hit_at_1": 0,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 0.5,
+          "sources": [
+            "queue-consumer-backlog.md",
+            "dependency-rate-limit.md",
+            "dependency-rate-limit.md"
+          ],
+          "latency_ms": 3.259
+        }
+      }
+    },
+    {
+      "query": "Report worker termination reason OOMKilled and restart count increasing",
+      "expected_source": "container-memory-limit.md",
+      "methods": {
+        "keyword": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "container-memory-limit.md",
+            "container-memory-limit.md",
+            "container-memory-limit.md"
+          ],
+          "latency_ms": 0.069
+        },
+        "semantic": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "container-memory-limit.md",
+            "container-memory-limit.md",
+            "container-memory-limit.md"
+          ],
+          "latency_ms": 2.858
+        },
+        "hybrid": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "container-memory-limit.md",
+            "container-memory-limit.md",
+            "container-memory-limit.md"
+          ],
+          "latency_ms": 2.942
+        }
+      }
+    },
+    {
+      "query": "The reporting process dies while holding a huge batch in memory.",
+      "expected_source": "container-memory-limit.md",
+      "methods": {
+        "keyword": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "container-memory-limit.md",
+            "container-memory-limit.md",
+            "container-memory-limit.md"
+          ],
+          "latency_ms": 0.069
+        },
+        "semantic": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "container-memory-limit.md",
+            "container-memory-limit.md",
+            "container-memory-limit.md"
+          ],
+          "latency_ms": 2.841
+        },
+        "hybrid": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "container-memory-limit.md",
+            "container-memory-limit.md",
+            "container-memory-limit.md"
+          ],
+          "latency_ms": 2.93
+        }
+      }
+    },
+    {
+      "query": "NAME_NOT_RESOLVED and NXDOMAIN for stock-store.internal",
+      "expected_source": "dns-resolution-failure.md",
+      "methods": {
+        "keyword": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "dns-resolution-failure.md",
+            "dns-resolution-failure.md"
+          ],
+          "latency_ms": 0.054
+        },
+        "semantic": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "dns-resolution-failure.md",
+            "dns-resolution-failure.md",
+            "dns-resolution-failure.md"
+          ],
+          "latency_ms": 2.915
+        },
+        "hybrid": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "dns-resolution-failure.md",
+            "dns-resolution-failure.md",
+            "dns-resolution-failure.md"
+          ],
+          "latency_ms": 2.979
+        }
+      }
+    },
+    {
+      "query": "Inventory cannot look up the address of its dependency by hostname.",
+      "expected_source": "dns-resolution-failure.md",
+      "methods": {
+        "keyword": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "dns-resolution-failure.md",
+            "dns-resolution-failure.md",
+            "dns-resolution-failure.md"
+          ],
+          "latency_ms": 0.064
+        },
+        "semantic": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "dns-resolution-failure.md",
+            "dns-resolution-failure.md",
+            "dns-resolution-failure.md"
+          ],
+          "latency_ms": 2.97
+        },
+        "hybrid": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "dns-resolution-failure.md",
+            "dns-resolution-failure.md",
+            "dns-resolution-failure.md"
+          ],
+          "latency_ms": 3.049
+        }
+      }
+    },
+    {
+      "query": "Queue arrivals 120 per second, processing 40, downstream status 200",
+      "expected_source": "queue-consumer-backlog.md",
+      "methods": {
+        "keyword": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "queue-consumer-backlog.md",
+            "queue-consumer-backlog.md",
+            "queue-consumer-backlog.md"
+          ],
+          "latency_ms": 0.074
+        },
+        "semantic": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "queue-consumer-backlog.md",
+            "queue-consumer-backlog.md",
+            "queue-consumer-backlog.md"
+          ],
+          "latency_ms": 2.961
+        },
+        "hybrid": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "queue-consumer-backlog.md",
+            "queue-consumer-backlog.md",
+            "queue-consumer-backlog.md"
+          ],
+          "latency_ms": 3.051
+        }
+      }
+    },
+    {
+      "query": "Events arrive faster than workers can finish them, although the downstream service responds successfully.",
+      "expected_source": "queue-consumer-backlog.md",
+      "methods": {
+        "keyword": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "queue-consumer-backlog.md",
+            "queue-consumer-backlog.md",
+            "queue-consumer-backlog.md"
+          ],
+          "latency_ms": 0.089
+        },
+        "semantic": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "queue-consumer-backlog.md",
+            "queue-consumer-backlog.md",
+            "queue-consumer-backlog.md"
+          ],
+          "latency_ms": 4.983
+        },
+        "hybrid": {
+          "hit_at_1": 1,
+          "hit_at_3": 1,
+          "reciprocal_rank_at_3": 1.0,
+          "sources": [
+            "queue-consumer-backlog.md",
+            "queue-consumer-backlog.md",
+            "queue-consumer-backlog.md"
+          ],
+          "latency_ms": 5.088
+        }
+      }
+    }
+  ]
+}
