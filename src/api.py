@@ -110,3 +110,12 @@ def investigate(body: InvestigationRequest, request: Request):
         raise HTTPException(
             502, "Model output failed validation. Evidence withheld."
         ) from error
+
+
+@app.get("/demo", include_in_schema=False)
+def demo():
+    from pathlib import Path
+    from fastapi.responses import FileResponse
+
+    page = Path(__file__).resolve().parents[1] / "static" / "index.html"
+    return FileResponse(page)
