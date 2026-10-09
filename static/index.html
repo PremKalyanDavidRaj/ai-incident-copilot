@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Incident Copilot</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: #101827; color: #e6edf7;
+      font-family: system-ui, sans-serif; line-height: 1.6;
+    }
+    main { max-width: 880px; margin: auto; padding: 48px 20px; }
+    h1 { margin-bottom: 8px; }
+    .muted { color: #b4c2d8; }
+    .panel {
+      background: #192437; border: 1px solid #34445d;
+      border-radius: 14px; padding: 24px; margin-top: 24px;
+    }
+    label { display: block; font-weight: 600; margin-bottom: 10px; }
+    textarea {
+      width: 100%; min-height: 140px; padding: 14px;
+      background: #101827; color: #fff; border: 1px solid #73839c;
+      border-radius: 8px; font: inherit; resize: vertical;
+    }
+    button {
+      margin-top: 14px; padding: 12px 20px; border: 0;
+      border-radius: 8px; background: #8bb9ff; color: #102038;
+      font: inherit; font-weight: 700; cursor: pointer;
+    }
+    button:disabled { opacity: .6; cursor: wait; }
+    a { color: #a6caff; }
+    blockquote {
+      margin: 10px 0; padding-left: 16px;
+      border-left: 3px solid #8bb9ff; white-space: pre-wrap;
+    }
+    .source { color: #b4c2d8; overflow-wrap: anywhere; font-size: .9rem; }
+    .error { color: #ffb4b4; }
+    #status { min-height: 26px; }
+    :focus-visible { outline: 3px solid #ffd479; outline-offset: 3px; }
+  </style>
+</head>
+<body>
+<main>
+  <p class="muted">LOCAL AI · RUNBOOK RETRIEVAL · VERIFIED QUOTATIONS</p>
+  <h1>AI Incident Copilot</h1>
+  <p class="muted">
+    Describe an incident to find investigation guidance from fictional runbooks.
+    No operational actions are executed.
+  </p>
+
+  <form id="form" class="panel">
+    <label for="question">What are you investigating?</label>
+    <textarea id="question" maxlength="1000" required
+      placeholder="Checkout returns 503 after deployment and readiness returns 404. What should I investigate?"></textarea>
+    <button id="submit" type="submit">Find evidence</button>
+    <p id="status" role="status" aria-live="polite"></p>
+  </form>
+
+  <section id="results" aria-label="Investigation results" hidden></section>
+
+  <p class="muted">
+    Quotes are checked against source text. Their relevance still needs review.
+    This demo does not confirm root causes.
+  </p>
+  <a href="/docs">API documentation</a>
+</main>
+
+<script>
+const form = document.getElementById("form");
+const question = document.getElementById("question");
+const button = document.getElementById("submit");
+const status = document.getElementById("status");
+const results = document.getElementById("results");
+
+function addText(parent, tag, text, className = "") {
+  const element = document.createElement(tag);
+  element.textContent = text;
+  element.className = className;
+  parent.appendChild(element);
+  return element;
+}
+
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const value = question.value.trim();
+  if (!value) {
+    status.textContent = "Please describe an incident first.";
+    question.focus();
+    return;
+  }
+
+  button.disabled = true;
+  results.replaceChildren();
+  results.hidden = true;
+  status.className = "";
+  status.textContent = "Retrieving guidance and checking selected quotes…";
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 240000);
+
+  try {
+    const response = await fetch("/investigate", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({question: value}),
+      signal: controller.signal
+    });
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        typeof data.detail === "string"
+          ? data.detail
+          : "The request failed. Check the question and retry."
+      );
+    }
+
+    results.hidden = false;
+    const panel = document.createElement("div");
+    panel.className = "panel";
+    results.appendChild(panel);
+
+    if (data.status === "evidence_found") {
+      addText(panel, "h2", "Runbook evidence");
+      for (const item of data.evidence) {
+        addText(panel, "blockquote", item.quote);
+        addText(
+          panel, "p",
+          `[${item.source_id}] ${item.source} · lines ${item.start_line}–${item.end_line}`,
+          "source"
+        );
+      }
+    } else {
+      const messages = {
+        no_relevant_evidence: "No sufficiently relevant runbook found. Include the service, symptoms, and error messages.",
+        no_guidance_sections: "The selected runbook has no supported guidance sections.",
+        no_evidence_selected: "The model selected no evidence. Try a more specific incident description."
+      };
+      addText(panel, "h2", "No evidence returned");
+      addText(panel, "p", messages[data.status] || "No evidence is available.");
+    }
+
+    addText(panel, "p", data.note, "muted");
+    status.textContent = data.generation_called
+      ? "Finished. Review the evidence before drawing conclusions."
+      : "Finished without calling the generation model.";
+  } catch (error) {
+    status.className = "error";
+    status.textContent = error.name === "AbortError"
+      ? "The browser stopped waiting. Server processing may still be running."
+      : error.message;
+  } finally {
+    clearTimeout(timer);
+    button.disabled = false;
+  }
+});
+</script>
+</body>
+</html>
