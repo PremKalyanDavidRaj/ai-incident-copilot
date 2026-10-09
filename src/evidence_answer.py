@@ -62,7 +62,21 @@ def main():
 
     try:
         print("Retrieving a runbook...")
-        ranked = HybridSearch().search(question, top_k=3)
+        engine = HybridSearch()
+        nearest = engine.semantic.search(question, top_k=1)[0]
+        relevance_score = nearest["score"]
+        print(f"Best semantic similarity: {relevance_score:.3f}")
+
+        # Provisional threshold selected on 12 development examples.
+        # Similarity is not a probability of relevance.
+        if relevance_score < 0.23:
+            print(
+                "No sufficiently relevant runbook found. "
+                "Try describing the service, symptoms, and error messages."
+            )
+            return
+
+        ranked = engine.search(question, top_k=3)
 
         if not ranked:
             print("No evidence retrieved.")
